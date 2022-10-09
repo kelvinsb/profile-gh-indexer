@@ -17,6 +17,9 @@
 default: &default
   adapter: postgresql
   encoding: unicode
+  username: <%= ENV['POSTGRES_USER'] %>
+  host: localhost
+  password: <%= ENV['POSTGRES_PW'] %>
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -82,5 +85,5 @@ test:
 production:
   <<: *default
   database: profile_gh_indexer_production
-  username: profile_gh_indexer
-  password: <%= ENV["PROFILE_GH_INDEXER_DATABASE_PASSWORD"] %>
+  # username: profile_gh_indexer
+  # password: <%= ENV["PROFILE_GH_INDEXER_DATABASE_PASSWORD"] %>
