@@ -22,11 +22,25 @@ class UsersController < ApplicationController
     render json: @user
   end
 
+  def rescan
+    @user = @repository.show(params[:id])
+
+    begin
+      RescanService.index(@user)
+    rescue StandardError => e
+      render json: { 'message': e }, status: 422
+      return
+    end
+
+    render json: @user
+  end
+
   # POST /users
   def create
     @user = @repository.create(user_params)
 
     if @user.persisted?
+      RescanService.index(@user)
       render json: @user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity
