@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   validates :name, :githubUser, presence: true
+  validates :name, uniqueness: true
   validates :quantityFollowers, :quantityFollowing, :quantityStars, :lastYearContributions,
             numericality: { only_integer: true }, allow_nil: true
 
