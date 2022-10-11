@@ -53,3 +53,4 @@ end
 gem 'dotenv-rails'
 gem 'kaminari'
 gem 'nokogiri'
+gem 'rack-cors'
