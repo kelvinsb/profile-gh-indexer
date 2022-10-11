@@ -40,7 +40,12 @@ class UsersController < ApplicationController
     @user = @repository.create(user_params)
 
     if @user.persisted?
-      RescanService.index(@user)
+      begin
+        RescanService.index(@user)
+      rescue StandardError => e
+        render json: { 'message': e }, status: 422
+        return
+      end
       render json: @user, status: :created, location: @user
     else
       render json: @user.errors, status: :unprocessable_entity

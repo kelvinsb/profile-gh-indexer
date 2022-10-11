@@ -17,6 +17,6 @@ class RescanService
     raise StandardError, 'Scan was realized less than 5 minutes ago' if user.lastScan && user.lastScan >= 5.minutes.ago
 
     new_data = ScrappingRepository.process(user.githubUser)
-    mutate_data(user, new_data)
+    mutate_data(user, new_data) unless new_data.nil?
   end
 end
