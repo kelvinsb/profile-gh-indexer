@@ -16,7 +16,14 @@ class UsersRepository
 
   def index(page, limit, order, filter, fields)
     the_query = query order, fields
-    @generic_query = the_query.filter_name(filter['name'])
+    the_filter = "%#{filter['name']}%"
+
+    if filter['name']&.length&.positive?
+      @generic_query = the_query.where(
+        'name LIKE ? OR "users"."githubUser" LIKE ? OR "users"."organization" LIKE ? OR "users"."localization" LIKE ?', the_filter, the_filter, the_filter, the_filter
+      ) else
+          @generic_query = the_query
+    end
 
     get_all page, limit
   end
